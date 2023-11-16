@@ -1,13 +1,4 @@
 terraform {
-
-  cloud {
-    organization = "tareq_terra"
-
-    workspaces {
-      name = "Discord-Project-TF"
-    }
-  }
-
   required_providers {
     aws = {
       source  = "hashicorp/aws"
