@@ -1,4 +1,13 @@
 terraform {
+
+  cloud {
+    organization = "tareq_terra"
+
+    workspaces {
+      name = "Discord-Project-TF"
+    }
+  }
+
   required_providers {
     aws = {
       source  = "hashicorp/aws"
@@ -16,7 +25,7 @@ provider "aws" {
 }
 
 resource "aws_instance" "example" {
-  ami           = "ami-0230bd60aa48260c6"
+  ami           = "ami-12345678"
   instance_type = "t2.micro"
 
 }
