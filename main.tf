@@ -1,20 +1,31 @@
 terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = ">= 5.0"  # Replace with your desired provider version
+
+  cloud {
+    organization = "tareq_terra"
+
+    workspaces {
+      name = "Discord-Project-TF"
     }
   }
 
-  required_version = ">= 0.15"  # Replace with your desired Terraform version
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0"
+    }
+  }
+
+
+
+  required_version = ">= 0.15"
 }
 
 provider "aws" {
-  region = "us-east-1"  # Set the AWS region
+  region = "us-east-1"
 }
 
 resource "aws_instance" "example" {
-  ami           = "ami-12345678"  # Replace with your desired AMI ID
+  ami           = "ami-0230bd60aa48260c6"
   instance_type = "t2.micro"
-  # Add other instance configuration settings as needed
+
 }
