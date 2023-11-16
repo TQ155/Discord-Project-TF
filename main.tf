@@ -28,10 +28,10 @@ resource "aws_instance" "ec2-instance" {
   ami           = "ami-0230bd60aa48260c6"
   instance_type = "t2.micro"
   tags = {
-    Name = "TF Discord"
-    Environment = "Development"  
-    Owner = "YourName"
-    
+    Name        = "TF Discord"
+    Environment = "Development"
+    Owner       = "YourName"
+
   }
 
 }
