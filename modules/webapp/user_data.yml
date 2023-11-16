@@ -1,0 +1,5 @@
+#!/bin/bash
+sudo yum update -y         # Update package list
+sudo yum install -y nginx  # Install NGINX
+sudo systemctl start nginx # Start NGINX service
+sudo systemctl enable nginx # Enable NGINX to start on boot
