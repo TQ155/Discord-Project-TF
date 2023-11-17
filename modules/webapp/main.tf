@@ -7,7 +7,7 @@ terraform {
       name = "Discord-Project-TF"
     }
   }
-
+  
   required_providers {
     aws = {
       source  = "hashicorp/aws"
@@ -15,41 +15,11 @@ terraform {
     }
   }
 
-
-
   required_version = ">= 0.15"
 }
 
 provider "aws" {
   region = "us-east-1"
-}
-// Create An EC2 instance
-resource "aws_instance" "ec2-instance" {
-  ami           = var.ami_id
-  instance_type = var.instance_type
-  user_data = data.template_file.user_data.rendered
-  tags = {
-    Name        = "TF Discord Project"
-    Environment = "Development"
-    Owner       = "Tareq B. M. AlQazzaz"
-  }
-  // Attach the security Group to the instance
-  vpc_security_group_ids = [
-    aws_security_group.instance-security-group.id,  # Replace with your actual security group ID
-  ]
-
-  provisioner "remote-exec" {
-    inline = [
-      "echo \"mars\" >> /home/ec2-user/barsoon/txt"
-    ]
-
-    connection {
-      type        = "ssh"
-      user        = "ec2-user"
-      private_key = file("/root/.ssh/my_key") // 
-      host        = "${self.public_ip}"
-    }
-  }
 }
 
 resource "aws_security_group" "instance-security-group" {
@@ -99,6 +69,35 @@ resource "aws_security_group" "instance-security-group" {
   
 }
 
+// Create An EC2 instance
+resource "aws_instance" "ec2-instance" {
+  ami           = var.ami_id
+  instance_type = var.instance_type
+  user_data = data.template_file.user_data.rendered
+  tags = {
+    Name        = "TF Discord Project"
+    Environment = "Development"
+    Owner       = "Tareq B. M. AlQazzaz"
+  }
+  // Attach the security Group to the instance
+  vpc_security_group_ids = [
+    aws_security_group.instance-security-group.id # Replace with your actual security group ID
+  ]
+
+  provisioner "remote-exec" {
+    inline = [
+      "echo \"mars\" >> /home/ec2-user/barsoon/txt"
+    ]
+
+    connection {
+      type        = "ssh"
+      user        = "ec2-user"
+      private_key = file("/root/.ssh/my_key") // 
+      host        = "${self.public_ip}"
+    }
+  }
+}
+
 resource "aws_key_pair" "deployer" {
   key_name   = "deployer-key"
   public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCjmXlbiHLRjsVzZW2ygs+aSXH/PWHu1KyNqJ/5R2WWFjCWpyN4d8aLys3Pg7Ha8/dDmsUs4NygYZ4jvvgTEF5Ih2AsKF2F2TzG5KJcOF3g5TS61mi27+urF8m56O9hO2AU5GN7tS2/olQPfo92gKR8GD7TYJf/SvnZc3EktVQ9Uwa8CRIPomOi+t6Ok9ZxclZNZ6GodcXDsiULDAP4eJb+m++uYk4iugVhLntlz2jJHa3VhI4qGJgcmXkHRmIqoJgBwqZeUb0KQqf3yXFn+VP0pIZ1z2jgfV5Rd7TBfZWYP8Joh+cuRdb0GQP23rVa4kiaVd3k+ii+b8gJHxvu6Jcj tariq@DESKTOP-25A1M4E"
@@ -107,3 +106,4 @@ resource "aws_key_pair" "deployer" {
 data "template_file" "user_data" {
 	template = file("./userdata.yaml")
 }
+
